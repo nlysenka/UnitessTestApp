@@ -15,7 +15,7 @@ namespace UnitessTestApp.Api.Controllers
             var jwt = new JwtSecurityToken(
                 issuer: AuthOptions.Issuer,
                 audience: AuthOptions.Audience,
-                expires: DateTime.UtcNow.AddSeconds(30),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
