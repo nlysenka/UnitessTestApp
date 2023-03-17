@@ -36,6 +36,7 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<ICarService, CarService>();
 
 var app = builder.Build();
 

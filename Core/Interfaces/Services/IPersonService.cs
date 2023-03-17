@@ -1,4 +1,5 @@
-﻿using UnitessTestApp.Api.Core.Entities;
+﻿using UnitessTestApp.Api.Core.DTO;
+using UnitessTestApp.Api.Core.Entities;
 
 namespace UnitessTestApp.Api.Core.Interfaces.Services
 {
@@ -12,6 +13,8 @@ namespace UnitessTestApp.Api.Core.Interfaces.Services
 
         Task DeletePerson(Guid personId);
 
-        Task<List<Person>> GetAllPersons();
+        Task<PersonPaginatedResponse> GetAllPersons(int pageSize, int cursor);
+
+        Task<List<Person>> GetAllPersonsWithDetails();
     }
 }

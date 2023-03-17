@@ -4,10 +4,12 @@ namespace UnitessTestApp.Api.Core.Interfaces.Repositories
 {
     public interface ICarRepository
     {
-        Task CreateCar(Car car);
+        Task<Guid> CreateCar(Car car);
 
-        Task UpdateCar(Car car);
+        Task<Car> GetCar(Guid carId);
 
-        Task DeleteCar(Guid idCar);
+        Task<int> UpdateCar(Car car);
+
+        Task<int> DeleteCar(Guid carId);
     }
 }

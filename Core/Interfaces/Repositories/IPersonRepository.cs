@@ -12,6 +12,8 @@ namespace UnitessTestApp.Api.Core.Interfaces.Repositories
 
         Task<int> DeletePerson(Guid personId);
 
-        Task<List<Person>> GetAllPersons();
+        Task<List<Person>> GetAllPersons(int offset, int fetch);
+
+        Task<List<Person>> GetAllPersonsWithDetails();
     }
 }

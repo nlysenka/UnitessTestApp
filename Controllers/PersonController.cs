@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnitessTestApp.Api.Core.DTO;
 using UnitessTestApp.Api.Core.Entities;
 using UnitessTestApp.Api.Core.Interfaces.Services;
 
@@ -14,11 +15,17 @@ namespace UnitessTestApp.Api.Controllers
             _personService = personService;
         }
 
-        //TODO add pagination
         [HttpGet("all")]
-        public async Task<List<Person>> GetAllPersons()
+        public async Task<PersonPaginatedResponse> GetAllPersons([FromQuery] int pageSize, [FromQuery] int cursor)
         {
-            var persons = await _personService.GetAllPersons();
+            var persons = await _personService.GetAllPersons(pageSize, cursor);
+            return persons;
+        }
+
+        [HttpGet("all/detailed")]
+        public async Task<List<Person>> GetAllPersonsWithDetails()
+        {
+            var persons = await _personService.GetAllPersonsWithDetails();
             return persons;
         }
 

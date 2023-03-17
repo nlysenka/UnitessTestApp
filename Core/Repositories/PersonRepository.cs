@@ -51,12 +51,42 @@ namespace UnitessTestApp.Api.Core.Repositories
             return affectedRows;
         }
 
-        public async Task<List<Person>> GetAllPersons()
+        public async Task<List<Person>> GetAllPersons(int offsetParam, int fetchParam)
         {
-            const string sqlQuery = "SELECT * FROM Persons";
+            const string sqlQuery = "SELECT * " +
+                                    "FROM Persons " +
+                                    "ORDER BY PersonId " +
+                                    "OFFSET @offsetParam rows " +
+                                    "FETCH NEXT @fetchParam ROWS ONLY";
             using var connection = _context.CreateConnection();
-            var users = await connection.QueryAsync<Person>(sqlQuery);
+            var users = await connection.QueryAsync<Person>(sqlQuery, new { offsetParam, fetchParam });
             return users.ToList();
+        }
+
+        public async Task<List<Person>> GetAllPersonsWithDetails()
+        {
+            const string sqlQuery = "SELECT p.PersonId, p.Name, c.CarId, c.PersonId, c.Model " +
+                                    "FROM Persons p " +
+                                    "LEFT JOIN Cars c on p.PersonId = c.PersonId " +
+                                    "ORDER BY p.PersonId " +
+                                    "OFFSET 1 ROWS";
+            using var connection = _context.CreateConnection();
+
+            var lookup = new Dictionary<Guid, Person>();
+            await connection.QueryAsync<Person, Car, Person>(sqlQuery, (s, a) =>
+                {
+                    if (!lookup.TryGetValue(s.PersonId, out var person))
+                    {
+                        lookup.Add(s.PersonId, person = s);
+                    }
+                    person.Cars.Add(a);
+                    return person;
+                }, splitOn: "CarId"
+            );
+
+            var resultList = lookup.Values.ToList();
+            
+            return resultList;
         }
     }
 }
