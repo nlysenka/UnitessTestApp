@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UnitessTestApp.Api.Core.DTO;
 using UnitessTestApp.Api.Core.Entities;
 using UnitessTestApp.Api.Core.Interfaces.Services;
@@ -15,6 +16,7 @@ namespace UnitessTestApp.Api.Controllers
             _personService = personService;
         }
 
+        [Authorize]
         [HttpGet("all")]
         public async Task<PersonPaginatedResponse> GetAllPersons([FromQuery] int pageSize, [FromQuery] int cursor)
         {
@@ -22,6 +24,7 @@ namespace UnitessTestApp.Api.Controllers
             return persons;
         }
 
+        [Authorize]
         [HttpGet("all/detailed")]
         public async Task<List<Person>> GetAllPersonsWithDetails()
         {
@@ -29,13 +32,15 @@ namespace UnitessTestApp.Api.Controllers
             return persons;
         }
 
+        [Authorize]
         [HttpPost("person")]
-        public async Task CreatePerson([FromBody] string name ="default Name")
+        public async Task CreatePerson([FromBody] string name = "default Name")
         {
             var newPerson = new Person(name);
             await _personService.CreatePerson(newPerson);
         }
 
+        [Authorize]
         [HttpGet("person/{person_id:guid}")]
         public async Task<Person> GetPersonById([FromRoute(Name = "person_id")] Guid personId)
         {
@@ -43,8 +48,9 @@ namespace UnitessTestApp.Api.Controllers
             return person;
         }
 
+        [Authorize]
         [HttpPatch("person/{person_id:guid}")]
-        public async Task UpdatePerson([FromRoute(Name = "person_id")] Guid personId,[FromBody] string name)
+        public async Task UpdatePerson([FromRoute(Name = "person_id")] Guid personId, [FromBody] string name)
         {
             var updatedPerson = new Person
             {
@@ -55,10 +61,11 @@ namespace UnitessTestApp.Api.Controllers
             await _personService.UpdatePerson(updatedPerson);
         }
 
+        [Authorize]
         [HttpDelete("person/{person_id:guid}")]
         public async Task DeletePerson([FromRoute(Name = "person_id")] Guid personId)
         {
-          await _personService.DeletePerson(personId);
+            await _personService.DeletePerson(personId);
         }
     }
 }

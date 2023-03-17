@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using UnitessTestApp.Api.Core.Configuration;
-using UnitessTestApp.Api.Core.DTO;
 using UnitessTestApp.Api.Core.Interfaces.Repositories;
 using UnitessTestApp.Api.Core.Interfaces.Services;
 using UnitessTestApp.Api.Core.Repositories;

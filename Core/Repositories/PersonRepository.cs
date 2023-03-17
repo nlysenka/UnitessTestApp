@@ -68,8 +68,7 @@ namespace UnitessTestApp.Api.Core.Repositories
             const string sqlQuery = "SELECT p.PersonId, p.Name, c.CarId, c.PersonId, c.Model " +
                                     "FROM Persons p " +
                                     "LEFT JOIN Cars c on p.PersonId = c.PersonId " +
-                                    "ORDER BY p.PersonId " +
-                                    "OFFSET 1 ROWS";
+                                    "ORDER BY p.PersonId ";
             using var connection = _context.CreateConnection();
 
             var lookup = new Dictionary<Guid, Person>();

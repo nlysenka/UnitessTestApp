@@ -17,13 +17,7 @@ namespace UnitessTestApp.Api.Controllers
             _carService = carService;
         }
 
-        [HttpGet]
         [Authorize]
-        public IActionResult Index()
-        {
-            return Ok();
-        }
-
         [HttpPost("car")]
         public async Task CreatePerson([FromBody] Car input)
         {
@@ -35,6 +29,7 @@ namespace UnitessTestApp.Api.Controllers
             throw new UnitessException(HttpStatusCode.UnprocessableEntity, "Input model incorrect.");
         }
 
+        [Authorize]
         [HttpGet("car/{car_id:guid}")]
         public async Task<Car> GetCarById([FromRoute(Name = "car_id")] Guid carId)
         {
@@ -42,6 +37,7 @@ namespace UnitessTestApp.Api.Controllers
             return car;
         }
 
+        [Authorize]
         [HttpPatch("car/{car_id:guid}")]
         public async Task UpdatePerson([FromRoute(Name = "car_id")] Guid carId, [FromBody] Car input)
         {
@@ -55,6 +51,7 @@ namespace UnitessTestApp.Api.Controllers
             await _carService.UpdateCar(updatedCar);
             }
 
+        [Authorize]
         [HttpDelete("car/{car_id:guid}")]
         public async Task DeleteCar([FromRoute(Name = "car_id")] Guid carId)
         {

@@ -11,7 +11,5 @@ namespace UnitessTestApp.Api.Core.Interfaces.Services
         Task UpdateCar(Car car);
 
         Task DeleteCar(Guid carId);
-
-        Task<List<Car>> GetAllByOwnerId();
     }
 }

@@ -38,7 +38,7 @@ namespace UnitessTestApp.Api.Core.Services
 
                 if (person == null)
                 {
-                    throw new UnitessException(HttpStatusCode.NotFound, $"Person with {personId} is not found.");
+                    throw new UnitessException(HttpStatusCode.NotFound, $"Person with id {personId} not found.");
                 }
 
                 return person;
@@ -49,6 +49,7 @@ namespace UnitessTestApp.Api.Core.Services
                 {
                     throw;
                 }
+
                 throw new UnitessException(HttpStatusCode.InternalServerError, $"Error during getting of person. Error: {e.Message}.");
             }
         }
@@ -60,7 +61,7 @@ namespace UnitessTestApp.Api.Core.Services
                 var affectedRows = await _personRepository.UpdatePerson(person);
                 if (affectedRows == 0)
                 {
-                    throw new UnitessException(HttpStatusCode.NotFound, $"Person with {person.PersonId} is not found.");
+                    throw new UnitessException(HttpStatusCode.NotFound, $"Person with id {person.PersonId} not found.");
                 }
             }
             catch (Exception e)
@@ -81,7 +82,7 @@ namespace UnitessTestApp.Api.Core.Services
                 var affectedRows = await _personRepository.DeletePerson(personId);
                 if (affectedRows == 0)
                 {
-                    throw new UnitessException(HttpStatusCode.NotFound, $"Person with {personId} is not found.");
+                    throw new UnitessException(HttpStatusCode.NotFound, $"Person with id {personId} not found.");
                 }
             }
             catch (Exception e)
@@ -106,7 +107,7 @@ namespace UnitessTestApp.Api.Core.Services
 
             if (cursor > 1)
             {
-                offset = (cursor-1) * pageSize;
+                offset = (cursor - 1) * pageSize;
             }
 
             if (pageSize < 1)
@@ -156,22 +157,25 @@ namespace UnitessTestApp.Api.Core.Services
 
             var allElementsOnPage = recordCount == pageSize && recordCount % pageSize == 0;
 
-            var totalPages = allElementsOnPage ? 1 : recordCount % pageSize == 0 ? recordCount / pageSize : recordCount / pageSize + 1;
+            var totalPages = allElementsOnPage 
+                ? 1 
+                : recordCount % pageSize == 0 
+                    ? recordCount / pageSize 
+                    : recordCount / pageSize + 1;
+            
             response.TotalPages = totalPages;
 
             var nextCursor = allElementsOnPage
                 ? null
                 : Convert.ToInt32(cursor, CultureInfo.InvariantCulture) >= totalPages
                     ? null
-                    : (Convert.ToInt32(cursor, CultureInfo.InvariantCulture) + 1)
-                    .ToString(CultureInfo.InvariantCulture);
+                    : (Convert.ToInt32(cursor, CultureInfo.InvariantCulture) + 1).ToString(CultureInfo.InvariantCulture);
 
             response.NextCursor = nextCursor!;
 
             var previousCursor = (allElementsOnPage || cursor == 1)
                 ? null
-                : (Convert.ToInt32(cursor, CultureInfo.InvariantCulture) - 1)
-                    .ToString(CultureInfo.InvariantCulture);
+                : (Convert.ToInt32(cursor, CultureInfo.InvariantCulture) - 1).ToString(CultureInfo.InvariantCulture);
 
             response.PreviousCursor = previousCursor!;
 

@@ -15,12 +15,12 @@ namespace UnitessTestApp.Api.Controllers
         public UnitessExceptionResponse Error()
         {
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            var exception = context?.Error; 
+            var exception = context?.Error;
             var code = 500;
 
             if (exception is UnitessException httpException)
             {
-                code = (int)httpException.Status;
+                code = (int) httpException.Status;
             }
 
             Response.StatusCode = code;

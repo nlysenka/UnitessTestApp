@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using UnitessTestApp.Api.Core.DTO;
+using UnitessTestApp.Api.Core.Configuration;
 
 namespace UnitessTestApp.Api.Controllers
 {

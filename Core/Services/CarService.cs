@@ -98,10 +98,5 @@ namespace UnitessTestApp.Api.Core.Services
                 throw new UnitessException(HttpStatusCode.InternalServerError, $"Error during delete of car. Error: {e.Message}.");
             }
         }
-
-        public Task<List<Car>> GetAllByOwnerId()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

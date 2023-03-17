@@ -1,5 +1,4 @@
-﻿using System;
-using Dapper;
+﻿using Dapper;
 using UnitessTestApp.Api.Core.Entities;
 using UnitessTestApp.Api.Core.Interfaces.Repositories;
 using UnitessTestApp.Api.Data;
