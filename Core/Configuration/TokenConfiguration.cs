@@ -3,11 +3,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace UnitessTestApp.Api.Core.Configuration
 {
-    public class AuthOptions
+    public class TokenConfiguration
     {
-        public const string Issuer = "MyAuthServer";
-        public const string Audience = "MyAuthClient";
-        private const string Key = "mysupersecret_secretkey!123";
+        public string Issuer { get; set; }
+
+        public string Audience { get; set; }
+
+        public static string Key { get; set; }
+
         public static SymmetricSecurityKey GetSymmetricSecurityKey() => new(Encoding.UTF8.GetBytes(Key));
     }
 }

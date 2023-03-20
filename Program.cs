@@ -11,15 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton(builder.Configuration.GetSection(nameof(UnitessConfiguration)).Get<UnitessConfiguration>());
 
+builder.Services.AddSingleton(builder.Configuration.GetSection(nameof(AuthenticationConfiguration)).Get<AuthenticationConfiguration>());
+
+builder.Services.AddSingleton(builder.Configuration.GetSection(nameof(TokenConfiguration)).Get<TokenConfiguration>());
+
+var tokenConfig = builder.Configuration.GetSection(nameof(TokenConfiguration)).Get<TokenConfiguration>();
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = AuthOptions.Issuer,
-            ValidAudience = AuthOptions.Audience,
+            ValidIssuer = tokenConfig.Issuer,
+            ValidAudience = tokenConfig.Audience,
             ValidateLifetime = true,
-            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            IssuerSigningKey = TokenConfiguration.GetSymmetricSecurityKey(),
             ClockSkew = TimeSpan.Zero
         };
     });
@@ -32,6 +39,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPersonService, PersonService>();
