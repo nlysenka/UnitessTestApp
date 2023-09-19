@@ -18,8 +18,8 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost("car")]
-        public async Task CreatePerson([FromBody] Car input)
+        [HttpPost]
+        public async Task CreateCar([FromBody] Car input)
         {
             if (ModelState.IsValid)
             {
@@ -30,7 +30,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("car/{car_id:guid}")]
+        [HttpGet("{car_id:guid}")]
         public async Task<Car> GetCarById([FromRoute(Name = "car_id")] Guid carId)
         {
             var car = await _carService.GetCar(carId);
@@ -38,7 +38,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpPatch("car/{car_id:guid}")]
+        [HttpPatch("{car_id:guid}")]
         public async Task UpdatePerson([FromRoute(Name = "car_id")] Guid carId, [FromBody] Car input)
         {
             var updatedCar = new Car
@@ -52,7 +52,7 @@ namespace UnitessTestApp.Api.Controllers
             }
 
         [Authorize]
-        [HttpDelete("car/{car_id:guid}")]
+        [HttpDelete("{car_id:guid}")]
         public async Task DeleteCar([FromRoute(Name = "car_id")] Guid carId)
         {
             await _carService.DeleteCar(carId);

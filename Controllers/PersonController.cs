@@ -17,7 +17,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<PersonPaginatedResponse> GetAllPersons([FromQuery] int pageSize, [FromQuery] int cursor)
         {
             var persons = await _personService.GetAllPersons(pageSize, cursor);
@@ -25,7 +25,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("all/detailed")]
+        [HttpGet("detailed")]
         public async Task<List<Person>> GetAllPersonsWithDetails()
         {
             var persons = await _personService.GetAllPersonsWithDetails();
@@ -33,7 +33,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost("person")]
+        [HttpPost]
         public async Task CreatePerson([FromBody] string name = "default Name")
         {
             var newPerson = new Person(name);
@@ -41,7 +41,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("person/{person_id:guid}")]
+        [HttpGet("{person_id:guid}")]
         public async Task<Person> GetPersonById([FromRoute(Name = "person_id")] Guid personId)
         {
             var person = await _personService.GetPerson(personId);
@@ -49,7 +49,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpPatch("person/{person_id:guid}")]
+        [HttpPatch("{person_id:guid}")]
         public async Task UpdatePerson([FromRoute(Name = "person_id")] Guid personId, [FromBody] string name)
         {
             var updatedPerson = new Person
@@ -62,7 +62,7 @@ namespace UnitessTestApp.Api.Controllers
         }
 
         [Authorize]
-        [HttpDelete("person/{person_id:guid}")]
+        [HttpDelete("{person_id:guid}")]
         public async Task DeletePerson([FromRoute(Name = "person_id")] Guid personId)
         {
             await _personService.DeletePerson(personId);
