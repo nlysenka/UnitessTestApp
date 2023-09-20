@@ -19,14 +19,19 @@ namespace UnitessTestApp.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task CreateCar([FromBody] Car input)
+        public async Task<Guid> CreateCar([FromBody] Car input)
         {
             if (ModelState.IsValid)
             {
-                await _carService.CreateCar(input);
+                var carId = await _carService.CreateCar(input);
+
+                return carId;
             }
 
-            throw new UnitessException(HttpStatusCode.UnprocessableEntity, "Input model incorrect.");
+            else
+            {
+                throw new UnitessException(HttpStatusCode.UnprocessableEntity, "Input model incorrect.");
+            }
         }
 
         [Authorize]
@@ -49,7 +54,7 @@ namespace UnitessTestApp.Api.Controllers
             };
 
             await _carService.UpdateCar(updatedCar);
-            }
+        }
 
         [Authorize]
         [HttpDelete("{car_id:guid}")]
